@@ -12,12 +12,13 @@ interface BrandCardProps {
 export function BrandCard({ brand }: BrandCardProps) {
   return (
     <Card className="overflow-hidden border border-[#D4B78F]/30 bg-white">
+      {/* هذا هو الجزء الخاص بالصورة (اللوجو) */}
       <img
-        src={brand.image || "/assets/placeholder-image.svg"}
-        alt={brand.name}
-        className="aspect-video w-full object-cover"
-        width={300}
-        height={200}
+        src={brand.image || "/assets/placeholder-image.svg"} // يستخدم مسار الصورة من بيانات الـ brand
+        alt={brand.name} // يستخدم اسم الـ brand كنص بديل للصورة
+        className="w-full h-58 object-cover" // كلاسات Tailwind: عرض كامل، ارتفاع 32 وحدة، تغطية المربع
+        width={300} // خصائص عرض الصورة (يمكن التحكم بها بـ className أيضاً)
+        height={200} // خصائص ارتفاع الصورة
       />
       <CardContent className="p-4">
         <TextArabic variant="h3" className="mb-2">{brand.name}</TextArabic>
