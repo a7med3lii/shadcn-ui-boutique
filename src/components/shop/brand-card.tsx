@@ -2,37 +2,44 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { TextArabic } from "@/components/ui/text-arabic";
-import { Brand } from "@/types";
+import { Brand, Product } from "@/types"; // مهم: تأكد أن Brand و Product مستوردين من ملف الـ types بتاعك
 import { Instagram, ShoppingCart } from "lucide-react";
 import { Link } from "react-router-dom";
-// import { useState } from "react"; // احذف السطر ده لأننا هنستخدم الـ Global State
 
-import { useCartStore } from "@/store/cartStore"; // أضف السطر ده عشان نجيب الـ Store بتاع السلة
+import { useCartStore } from "@/store/cartStore";
 
 interface BrandCardProps {
   brand: Brand;
 }
 
 export function BrandCard({ brand }: BrandCardProps) {
-  // احذف السطر ده: const [cartItems, setCartItems] = useState([]);
-  const addItem = useCartStore((state) => state.addItem); // أضف السطر ده عشان نجيب دالة إضافة المنتج للسلة
+  const addItemToCart = useCartStore((state) => state.addItem);
 
   const handleAddToCart = () => {
-    // عدل الكود ده جوه الدالة:
-    // بنضيف الماركة كمنتج للسلة
-    addItem({
-      id: brand.id, // لازم يكون فيه id فريد لكل منتج
-      name: brand.name,
-      price: 0, // لو الماركات ملهاش سعر، ممكن نحط 0 أو نحط سعر افتراضي لو ليها سعر في بيانات الـ Brand
-      image: brand.image,
-      quantity: 1, // الكمية الأولية لما نضيفه لأول مرة
-    });
-    console.log(`تم إضافة الماركة: ${brand.name} إلى السلة فعلياً.`);
+    // هنا بنبني Product object من بيانات الـ Brand
+    // لازم كل الخصائص اللي في Product interface تكون موجودة
+    const productToAdd: Product = {
+      id: brand.id + "_product", // تغيير: عشان نفرق بين ID البراند و ID المنتج لو البراند نفسها مش منتج
+      brandId: brand.id, // ID البراند (لو الـ Product interface فيه brandId)
+      name: brand.name + " (منتج افتراضي)", // اسم المنتج (ممكن يكون اسم البراند + "منتج افتراضي")
+      description: brand.description || "وصف افتراضي لهذا المنتج من " + brand.name,
+      price: 150, // سعر افتراضي ثابت (لأن Brand interface بتاعك معندوش خاصية price)
+      sizes: ["M"], // مقاس افتراضي (لو عايز تخليه فارغ أو تجيبه من مكان تاني)
+      colors: ["Black"], // لون افتراضي (لو عايز تخليه فارغ أو تجيبه من مكان تاني)
+      images: [brand.image], // صورة المنتج (هنا بنحول الـ string إلى array of strings)
+      stock: 100, // مخزون افتراضي
+    };
+
+    // نختار المقاس واللون اللي هنضيفهم للسلة (ممكن يكونوا أول عنصر في arrays المقاسات والألوان)
+    const selectedSize = productToAdd.sizes && productToAdd.sizes.length > 0 ? productToAdd.sizes[0] : "One Size";
+    const selectedColor = productToAdd.colors && productToAdd.colors.length > 0 ? productToAdd.colors[0] : "Default Color";
+
+    addItemToCart(productToAdd, selectedSize, selectedColor, 1); // إضافة المنتج للسلة بكمية 1
+    console.log(`تم إضافة المنتج من الماركة: ${brand.name} إلى السلة فعلياً.`);
   };
 
   return (
     <Card className="overflow-hidden border border-[#D4B78F]/30 bg-white">
-      {/* هذا هو الجزء الخاص بالصورة (اللوجو) */}
       <img
         src={brand.image || "/assets/placeholder-image.svg"}
         alt={brand.name}

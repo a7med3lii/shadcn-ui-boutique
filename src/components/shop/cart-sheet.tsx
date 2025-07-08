@@ -7,9 +7,12 @@ import {
   SheetTitle,
 } from "@/components/ui/sheet";
 import { TextArabic } from "@/components/ui/text-arabic";
-import { useCart } from "@/hooks/use-cart";
+// **مهم: هنا بنستخدم useCartStore**
+import { useCartStore } from "@/store/cartStore"; 
+
 import { MinusIcon, PlusIcon, Trash2 } from "lucide-react";
 import { Link } from "react-router-dom";
+// ممكن تحتاج تستورد CartItem لو بتستخدمه في مكان تاني في الملف، بس غالباً لا
 
 interface CartSheetProps {
   open: boolean;
@@ -17,7 +20,9 @@ interface CartSheetProps {
 }
 
 export function CartSheet({ open, onOpenChange }: CartSheetProps) {
-  const { items, removeItem, updateQuantity, totalPrice, clearCart } = useCart();
+  // **بنستخدم الدوال والمتغيرات من useCartStore**
+  const { items, removeItem, updateQuantity, clearCart, getTotalPrice } = useCartStore();
+  const totalPrice = getTotalPrice(); // بنحسب السعر الإجمالي هنا
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
@@ -42,7 +47,7 @@ export function CartSheet({ open, onOpenChange }: CartSheetProps) {
             <div className="flex-1 overflow-auto py-6">
               <ul className="grid gap-6">
                 {items.map((item, index) => (
-                  <li key={index} className="flex gap-4 border-b border-[#D4B78F]/20 pb-4">
+                  <li key={item.product.id + item.selectedSize + item.selectedColor} className="flex gap-4 border-b border-[#D4B78F]/20 pb-4">
                     <div className="h-16 w-16 overflow-hidden rounded-md">
                       <img
                         src={item.product.images[0] || "/assets/placeholder-image.svg"}
@@ -66,7 +71,7 @@ export function CartSheet({ open, onOpenChange }: CartSheetProps) {
                           size="icon"
                           className="h-6 w-6"
                           onClick={() =>
-                            updateQuantity(index, item.quantity - 1)
+                            updateQuantity(item.product.id, item.selectedSize, item.selectedColor, item.quantity - 1)
                           }
                           disabled={item.quantity <= 1}
                         >
@@ -79,7 +84,7 @@ export function CartSheet({ open, onOpenChange }: CartSheetProps) {
                           size="icon"
                           className="h-6 w-6"
                           onClick={() =>
-                            updateQuantity(index, item.quantity + 1)
+                            updateQuantity(item.product.id, item.selectedSize, item.selectedColor, item.quantity + 1)
                           }
                         >
                           <PlusIcon className="h-3 w-3" />
@@ -89,10 +94,9 @@ export function CartSheet({ open, onOpenChange }: CartSheetProps) {
                           variant="ghost"
                           size="icon"
                           className="ml-auto h-6 w-6 text-red-500"
-                          onClick={() => removeItem(index)}
+                          onClick={() => removeItem(item.product.id, item.selectedSize, item.selectedColor)}
                         >
-                          <Trash2 className="h-3 w-3" />
-                          <span className="sr-only">حذف المنتج</span>
+                          <Trash2 className="h-3 w-3" /> <span className="sr-only">حذف المنتج</span>
                         </Button>
                       </div>
                     </div>
