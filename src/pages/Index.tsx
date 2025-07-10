@@ -9,44 +9,45 @@ import { ArrowLeft, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 
 export default function Index() {
-  // Get featured products (first 4)
   const featuredProducts = products.slice(0, 4);
 
   return (
     <MainLayout>
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-r from-[#F8F3E9] to-[#F0E6D2] py-16 md:py-24">
-        <div className="container px-4 md:px-6">
-          <div className="grid gap-6 md:grid-cols-2 md:gap-10">
-            <div className="flex flex-col justify-center">
-              <TextArabic variant="h1" className="mb-6 bg-gradient-to-r from-[#D4B78F] to-[#BEA67C] bg-clip-text text-transparent">
-                بوتيك Dream
-              </TextArabic>
-              <TextArabic className="mb-8 text-lg text-gray-700">
-                بوتيك راقٍ متخصص في عرض وتصنيف منتجات أفخم براندات الملابس الحريمي بتصميم أنيق وعصري
-              </TextArabic>
-              <div className="flex flex-col gap-4 sm:flex-row">
-                <Button asChild className="bg-[#D4B78F] hover:bg-[#C6A77E] text-white">
-                  <Link to="/brands">
-                    <TextArabic>تسوق الآن</TextArabic>
-                  </Link>
-                </Button>
-                <Button asChild variant="outline">
-                  <Link to="/about">
-                    <TextArabic>تعرف علينا</TextArabic>
-                  </Link>
-                </Button>
-              </div>
-            </div>
-            <div className="relative hidden aspect-video overflow-hidden rounded-xl md:block">
-              <img
-                src="/assets/placeholder-image.svg"
-                alt="Dream Boutique"
-                className="h-full w-full object-cover"
-                width={600}
-                height={400}
-              />
-            </div>
+      <section className="relative bg-gradient-to-r from-[#F8F3E9] to-[#F0E6D2] py-16 md:py-24 overflow-hidden">
+        {/* اللوجو كخلفية شفافة ومكانه هيكون في منتصف السكشن ده */}
+        <div className="absolute inset-0 flex items-center justify-center -z-0">
+          <img
+            src="/assets/placeholder-image.webp"
+            alt="Dream Dress Logo"
+            className="h-[70vh] w-auto object-contain opacity-20"
+          />
+        </div>
+
+        {/* ده الـ Container اللي فيه الكلام والأزرار، وهيكون فوق اللوجو */}
+        <div className="container px-4 md:px-6 relative z-10 text-center md:text-center flex flex-col items-center justify-center">
+          {/* هنا الكلام اللي المستخدم يقدر يكتبه ويغيره باستمرار */}
+          <TextArabic variant="h1" className="mb-6 text-[#D4B78F]"> {/* عدلت هنا: شلت bg-clip-text text-transparent وحطيت لون ثابت */}
+            بوتيك Dream
+          </TextArabic>
+          <TextArabic className="mb-8 text-lg text-gray-700 max-w-2xl">
+            بوتيك راقٍ متخصص في عرض وتصنيف منتجات أفخم براندات الملابس الحريمي بتصميم أنيق وعصري.
+            <br />
+            <span className="font-bold text-[#D4B78F] text-2xl md:text-3xl">خصم 50% على كل الفساتين الجديدة بمناسبة الافتتاح الكبير!</span>
+            <br />
+            <span className="text-base text-gray-600">زورونا في فرعنا الجديد واستمتعوا بأحدث صيحات الموضة.</span>
+          </TextArabic>
+          <div className="flex flex-col gap-4 sm:flex-row justify-center">
+            <Button asChild className="bg-[#D4B78F] hover:bg-[#C6A77E] text-white">
+              <Link to="/brands">
+                <TextArabic>تسوق الآن</TextArabic>
+              </Link>
+            </Button>
+            <Button asChild variant="outline">
+              <Link to="/about">
+                <TextArabic>تعرف علينا</TextArabic>
+              </Link>
+            </Button>
           </div>
         </div>
       </section>
@@ -89,9 +90,7 @@ export default function Index() {
             ))}
           </div>
         </div>
-      </section>
-
-      {/* Features Section */}
+      </section> {/* Features Section */}
       <section className="py-16">
         <div className="container px-4 md:px-6">
           <TextArabic variant="h2" className="mb-10 text-center">خدماتنا المميزة</TextArabic>
@@ -172,9 +171,7 @@ export default function Index() {
             </div>
           </div>
         </div>
-      </section>
-
-      {/* Call to Action */}
+      </section> {/* Call to Action */}
       <section className="bg-[#D4B78F] py-16">
         <div className="container px-4 md:px-6">
           <div className="flex flex-col items-center text-center">

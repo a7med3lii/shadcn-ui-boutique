@@ -2,7 +2,7 @@ export interface Brand {
   id: string;
   name: string;
   description: string;
-  instagramLink: string;
+  instagramLink?: string; // هنا التعديل: خليناها اختيارية بإضافة علامة الاستفهام
   image: string;
 }
 

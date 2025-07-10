@@ -22,7 +22,7 @@ export function BrandCard({ brand }: BrandCardProps) {
       id: brand.id + "_product", // تغيير: عشان نفرق بين ID البراند و ID المنتج لو البراند نفسها مش منتج
       brandId: brand.id, // ID البراند (لو الـ Product interface فيه brandId)
       name: brand.name + " (منتج افتراضي)", // اسم المنتج (ممكن يكون اسم البراند + "منتج افتراضي")
-      description: brand.description || "وصف افتراضي لهذا المنتج من " + brand.name,
+      description: brand.description || "وصف افتراضي لهذا المنتج من " + brand.name, // استخدمت || عشان لو الوصف مش موجود
       price: 150, // سعر افتراضي ثابت (لأن Brand interface بتاعك معندوش خاصية price)
       sizes: ["M"], // مقاس افتراضي (لو عايز تخليه فارغ أو تجيبه من مكان تاني)
       colors: ["Black"], // لون افتراضي (لو عايز تخليه فارغ أو تجيبه من مكان تاني)
@@ -41,7 +41,7 @@ export function BrandCard({ brand }: BrandCardProps) {
   return (
     <Card className="overflow-hidden border border-[#D4B78F]/30 bg-white">
       <img
-        src={brand.image || "/assets/placeholder-image.svg"}
+        src={brand.image || "/assets/placeholder-image.webp"} // عدلنا المسار هنا لـ .webp
         alt={brand.name}
         className="w-full h-58 object-cover"
         width={300}
@@ -63,12 +63,15 @@ export function BrandCard({ brand }: BrandCardProps) {
           <span className="sr-only">أضف إلى السلة</span>
         </Button>
 
-        <Button variant="outline" size="icon" asChild>
-          <Link to={brand.instagramLink} target="_blank">
-            <Instagram className="h-4 w-4" />
-            <span className="sr-only">إنستجرام</span>
-          </Link>
-        </Button>
+        {/* هنا الحل لمشكلة الـ instagramLink */}
+        {brand.instagramLink && ( // بنعرض الزرار بس لو الـ instagramLink موجود
+          <Button variant="outline" size="icon" asChild>
+            <Link to={brand.instagramLink} target="_blank">
+              <Instagram className="h-4 w-4" />
+              <span className="sr-only">إنستجرام</span>
+            </Link>
+          </Button>
+        )}
       </CardFooter>
     </Card>
   );

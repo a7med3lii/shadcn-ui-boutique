@@ -7,14 +7,14 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { CartSheet } from "../shop/cart-sheet";
 
-// **تأكد أن هذا هو الـ import الصحيح:**
+// تأكد أن هذا هو الـ import الصحيح:
 import { useCartStore } from "@/store/cartStore";
 
 export function Header() {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const navigate = useNavigate();
 
-  // **استخدم getTotalItems من useCartStore:**
+  // استخدم getTotalItems من useCartStore:
   const totalCartItems = useCartStore((state) => state.getTotalItems());
 
   return (
@@ -34,7 +34,12 @@ export function Header() {
                   to="/"
                   className="flex items-center justify-center gap-2 text-lg font-semibold"
                 >
-                  <TextArabic variant="h3">Dream</TextArabic>
+                  {/* اللوجو هنا كمان عشان يظهر في قائمة الموبايل */}
+                  <img
+                    src="/assets/placeholder-image.webp"
+                    alt="Dream Dress Logo"
+                    className="h-8" // ممكن تعدل الارتفاع حسب ما يناسبك
+                  />
                 </Link>
                 <div className="grid gap-3">
                   <Link to="/" className="flex items-center py-2">
@@ -66,7 +71,12 @@ export function Header() {
         </div>
 
         <Link to="/" className="flex items-center gap-2">
-          <TextArabic variant="h3" className="text-[#D4B78F]">Dream</TextArabic>
+          {/* هنا مكان اللوجو الأساسي في الهيدر */}
+          <img
+            src="/assets/placeholder-image.webp"
+            alt="Dream Dress Logo"
+            className="h-10" // ممكن تعدل الارتفاع حسب ما يناسبك
+          />
         </Link>
 
         <nav className="hidden md:flex items-center gap-6">
@@ -92,7 +102,6 @@ export function Header() {
             <TextArabic>تتبع الطلب</TextArabic>
           </Link>
         </nav>
-
         <div className="flex items-center gap-2">
           <Button
             variant="ghost"
